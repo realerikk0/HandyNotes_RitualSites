@@ -11,8 +11,6 @@ local locale = GetLocale()
 local L = {
 	["HandyNotes: Ritual Sites"] = "HandyNotes: Ritual Sites",
 	["Ritual Site collectible points."] = "Ritual Site collectible points.",
-	["Show map button"] = "Show map button",
-	["Show the Ritual Sites filter button on the world map."] = "Show the Ritual Sites filter button on the world map.",
 	["Show seaweed and soggy nest"] = "Show seaweed and soggy nest",
 	["Show washed-up seaweed and the soggy nest."] = "Show washed-up seaweed and the soggy nest.",
 	["Show void-touched lynx thickets"] = "Show void-touched lynx thickets",
@@ -34,8 +32,6 @@ if locale == "zhCN" then
 	L = {
 		["HandyNotes: Ritual Sites"] = "HandyNotes：仪式场地",
 		["Ritual Site collectible points."] = "仪式场地收集点。",
-		["Show map button"] = "显示地图按钮",
-		["Show the Ritual Sites filter button on the world map."] = "在世界地图上显示仪式场地过滤按钮。",
 		["Show seaweed and soggy nest"] = "显示海藻和湿漉漉的窝",
 		["Show washed-up seaweed and the soggy nest."] = "显示冲上岸的海藻和湿漉漉的窝。",
 		["Show void-touched lynx thickets"] = "显示虚触山猫草丛",
@@ -56,8 +52,7 @@ end
 
 local defaults = {
 	showSeaweed = true,
-	showLynx = true,
-	showMapButton = true
+	showLynx = true
 }
 
 HandyNotes_RitualSitesDB = HandyNotes_RitualSitesDB or {}
@@ -141,16 +136,17 @@ AddBush(42.03, 80.03)
 AddBush(41.76, 49.69)
 AddBush(43.31, 57.99)
 
-local handler = {}
-
 local function IsCategoryEnabled(category)
 	if category == CATEGORY_SEAWEED then
 		return GetOption("showSeaweed")
-	elseif category == CATEGORY_LYNX then
+	end
+	if category == CATEGORY_LYNX then
 		return GetOption("showLynx")
 	end
 	return true
 end
+
+local handler = {}
 
 local function Iter(pointData, prevCoord)
 	if not pointData then return nil end
@@ -241,18 +237,6 @@ local options = {
 			name = L["Show void-touched lynx thickets"],
 			desc = L["Show rustling hidden thickets for the void-touched lynx collectible."],
 			order = 20
-		},
-		showMapButton = {
-			type = "toggle",
-			name = L["Show map button"],
-			desc = L["Show the Ritual Sites filter button on the world map."],
-			order = 30,
-			set = function(info, value)
-				SetOption(info[#info], value)
-				if mapButton then
-					mapButton:SetShown(value and WorldMapFrame and WorldMapFrame:GetMapID() == MAP_DAGGERSPINE_POINT)
-				end
-			end
 		}
 	}
 }
@@ -271,66 +255,57 @@ local function OpenHandyNotesOptions()
 end
 
 local function ShowFilterMenu(owner)
-	if MenuUtil and MenuUtil.CreateContextMenu then
-		MenuUtil.CreateContextMenu(owner, function(_, rootDescription)
-			rootDescription:CreateTitle(L["HandyNotes: Ritual Sites"])
-			rootDescription:CreateCheckbox(L["Show seaweed and soggy nest"], function()
-				return GetOption("showSeaweed")
-			end, function()
-				ToggleOption("showSeaweed")
-			end)
-			rootDescription:CreateCheckbox(L["Show void-touched lynx thickets"], function()
-				return GetOption("showLynx")
-			end, function()
-				ToggleOption("showLynx")
-			end)
-			rootDescription:CreateDivider()
-			rootDescription:CreateButton(L["Show all"], function()
-				SetOption("showSeaweed", true)
-				SetOption("showLynx", true)
-			end)
-			rootDescription:CreateButton(L["Open HandyNotes options"], OpenHandyNotesOptions)
-		end)
+	if not (MenuUtil and MenuUtil.CreateContextMenu) then
 		return
 	end
 
-	UIErrorsFrame:AddMessage(L["HandyNotes: Ritual Sites"] .. ": MenuUtil is not available.")
+	MenuUtil.CreateContextMenu(owner, function(_, rootDescription)
+		rootDescription:CreateTitle(L["HandyNotes: Ritual Sites"])
+		rootDescription:CreateCheckbox(L["Show seaweed and soggy nest"], function()
+			return GetOption("showSeaweed")
+		end, function()
+			ToggleOption("showSeaweed")
+		end)
+		rootDescription:CreateCheckbox(L["Show void-touched lynx thickets"], function()
+			return GetOption("showLynx")
+		end, function()
+			ToggleOption("showLynx")
+		end)
+		rootDescription:CreateDivider()
+		rootDescription:CreateButton(L["Show all"], function()
+			SetOption("showSeaweed", true)
+			SetOption("showLynx", true)
+		end)
+		rootDescription:CreateButton(L["Open HandyNotes options"], OpenHandyNotesOptions)
+	end)
 end
 
 local function UpdateMapButton()
 	if not mapButton or not WorldMapFrame then return end
-	mapButton:SetShown(GetOption("showMapButton") and WorldMapFrame:IsShown() and WorldMapFrame:GetMapID() == MAP_DAGGERSPINE_POINT)
-end
-
-local function CreateWorldMapColumnButton()
-	local WorldMapButtons = LibStub and LibStub("Krowi_WorldMapButtons-1.4", true)
-	if not WorldMapButtons then return false end
-
-	local templateName = ADDON_NAME .. "WorldMapOptionsButtonTemplate"
-	local ok, registeredButton = pcall(function()
-		return WorldMapButtons:Add(templateName, "DROPDOWNTOGGLEBUTTON")
-	end)
-	if ok and registeredButton then
-		mapButton = registeredButton
-		mapButton:SetScript("OnClick", ShowFilterMenu)
-		mapButton:SetScript("OnEnter", function(self)
-			GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-			GameTooltip:SetText(L["HandyNotes: Ritual Sites"])
-			GameTooltip:AddLine(L["Show seaweed and soggy nest"], GetOption("showSeaweed") and 0.4 or 0.8, GetOption("showSeaweed") and 1 or 0.4, 0.4)
-			GameTooltip:AddLine(L["Show void-touched lynx thickets"], GetOption("showLynx") and 0.4 or 0.8, GetOption("showLynx") and 1 or 0.4, 0.4)
-			GameTooltip:Show()
-		end)
-		mapButton:SetScript("OnLeave", GameTooltip_Hide)
-		UpdateMapButton()
-		return true
-	end
-
-	return false
+	mapButton:SetShown(WorldMapFrame:IsShown() and WorldMapFrame:GetMapID() == MAP_DAGGERSPINE_POINT)
 end
 
 local function CreateMapButton()
 	if mapButton or not WorldMapFrame then return end
-	if not CreateWorldMapColumnButton() then return end
+
+	local WorldMapButtons = LibStub and LibStub("Krowi_WorldMapButtons-1.4", true)
+	if not WorldMapButtons then return end
+
+	local ok, button = pcall(function()
+		return WorldMapButtons:Add(ADDON_NAME .. "WorldMapOptionsButtonTemplate", "DROPDOWNTOGGLEBUTTON")
+	end)
+	if not ok or not button then return end
+
+	mapButton = button
+	mapButton:SetScript("OnClick", ShowFilterMenu)
+	mapButton:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+		GameTooltip:SetText(L["HandyNotes: Ritual Sites"])
+		GameTooltip:AddLine(L["Show seaweed and soggy nest"], GetOption("showSeaweed") and 0.4 or 0.8, GetOption("showSeaweed") and 1 or 0.4, 0.4)
+		GameTooltip:AddLine(L["Show void-touched lynx thickets"], GetOption("showLynx") and 0.4 or 0.8, GetOption("showLynx") and 1 or 0.4, 0.4)
+		GameTooltip:Show()
+	end)
+	mapButton:SetScript("OnLeave", GameTooltip_Hide)
 
 	WorldMapFrame:HookScript("OnShow", UpdateMapButton)
 	WorldMapFrame:HookScript("OnHide", UpdateMapButton)
@@ -342,6 +317,8 @@ local function CreateMapButton()
 	if WorldMapFrame.OnMapChanged then
 		hooksecurefunc(WorldMapFrame, "OnMapChanged", UpdateMapButton)
 	end
+
+	UpdateMapButton()
 end
 
 local eventFrame = CreateFrame("Frame")
