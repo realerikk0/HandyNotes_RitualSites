@@ -8,7 +8,7 @@
 ## IconTexture: Interface\Icons\Spell_Shadow_Rune
 ## DefaultState: enabled
 ## X-Category: Map
-## OptionalDeps: HandyNotes_Midnight, HandyNotes_MidnightTreasures, HandyNotes_WarWithin
+## OptionalDeps: Krowi_WorldMapButtons, HandyNotes_Midnight, HandyNotes_MidnightTreasures, HandyNotes_WarWithin
 ## RequiredDeps: HandyNotes
 ## SavedVariables: HandyNotes_RitualSitesDB
 
