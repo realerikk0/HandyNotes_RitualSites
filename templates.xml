@@ -1,5 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
-  <DropDownToggleButton name="HandyNotes_RitualSitesWorldMapOptionsButtonTemplate" inherits="WowStyle1DropdownTemplate" virtual="true">
+  <DropDownToggleButton name="HandyNotes_RitualSitesWorldMapOptionsButtonTemplate" frameStrata="HIGH" virtual="true">
     <Size x="32" y="32"/>
     <NormalTexture file="Interface\Icons\Spell_Shadow_Rune"/>
     <HighlightTexture file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD"/>
