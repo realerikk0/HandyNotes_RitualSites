@@ -44,7 +44,7 @@ local L = {
 
 if locale == "zhCN" then
     L = {
-        ["HandyNotes: Ritual Sites"] = "HandyNotes：仪式场地",
+        ["HandyNotes: Ritual Sites"] = "HandyNotes: Ritual Sites（仪式场地）",
         ["Ritual Site collectible points."] = "仪式场地收集点。",
         ["Display"] = "显示",
         ["Categories"] = "类别",
