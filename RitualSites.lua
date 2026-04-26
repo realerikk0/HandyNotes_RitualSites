@@ -2,6 +2,7 @@ local ADDON_NAME = ...
 local HandyNotes = LibStub("AceAddon-3.0"):GetAddon("HandyNotes", true)
 if not HandyNotes then return end
 
+local PLUGIN_DISPLAY_NAME = "HandyNotes: Ritual Sites"
 local MAP_DAGGERSPINE_POINT = 2594
 local CATEGORY_SEAWEED = "seaweed"
 local CATEGORY_LYNX = "lynx"
@@ -224,7 +225,7 @@ end
 
 local options = {
 	type = "group",
-	name = L["HandyNotes: Ritual Sites"],
+	name = PLUGIN_DISPLAY_NAME,
 	desc = L["Ritual Site collectible points."],
 	get = function(info) return GetOption(info[#info]) end,
 	set = function(info, value) SetOption(info[#info], value) end,
@@ -293,46 +294,7 @@ local function ShowFilterMenu(owner)
 		return
 	end
 
-	if not UIDropDownMenu_Initialize then return end
-	local dropdown = _G[ADDON_NAME .. "Dropdown"] or CreateFrame("Frame", ADDON_NAME .. "Dropdown", UIParent, "UIDropDownMenuTemplate")
-	UIDropDownMenu_Initialize(dropdown, function(_, level)
-		if level ~= 1 then return end
-		local info = UIDropDownMenu_CreateInfo()
-		info.text = L["HandyNotes: Ritual Sites"]
-		info.isTitle = true
-		info.notCheckable = true
-		UIDropDownMenu_AddButton(info, level)
-
-		info = UIDropDownMenu_CreateInfo()
-		info.text = L["Show seaweed and soggy nest"]
-		info.checked = GetOption("showSeaweed")
-		info.keepShownOnClick = true
-		info.func = function() ToggleOption("showSeaweed") end
-		UIDropDownMenu_AddButton(info, level)
-
-		info = UIDropDownMenu_CreateInfo()
-		info.text = L["Show void-touched lynx thickets"]
-		info.checked = GetOption("showLynx")
-		info.keepShownOnClick = true
-		info.func = function() ToggleOption("showLynx") end
-		UIDropDownMenu_AddButton(info, level)
-
-		info = UIDropDownMenu_CreateInfo()
-		info.text = L["Show all"]
-		info.notCheckable = true
-		info.func = function()
-			SetOption("showSeaweed", true)
-			SetOption("showLynx", true)
-		end
-		UIDropDownMenu_AddButton(info, level)
-
-		info = UIDropDownMenu_CreateInfo()
-		info.text = L["Open HandyNotes options"]
-		info.notCheckable = true
-		info.func = OpenHandyNotesOptions
-		UIDropDownMenu_AddButton(info, level)
-	end, "MENU")
-	ToggleDropDownMenu(1, nil, dropdown, owner, 0, 0)
+	UIErrorsFrame:AddMessage(L["HandyNotes: Ritual Sites"] .. ": MenuUtil is not available.")
 end
 
 local function UpdateMapButton()
