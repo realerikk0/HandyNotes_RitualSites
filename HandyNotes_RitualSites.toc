@@ -1,6 +1,6 @@
 ## Interface: 120005
 ## Title: HandyNotes: Ritual Sites
-## Title-zhCN: HandyNotes：仪式场地
+## Title-zhCN: HandyNotes: Ritual Sites（仪式场地）
 ## Notes: Marks Ritual Site collectible points.
 ## Notes-zhCN: 标记仪式场地内的海藻、湿漉漉的窝和沙沙响的隐秘草丛。
 ## Author: liuyu
