@@ -297,6 +297,7 @@ local function CreateMapButton()
 	if not ok or not button then return end
 
 	mapButton = button
+	mapButton.Refresh = UpdateMapButton
 	mapButton:SetScript("OnClick", ShowFilterMenu)
 	mapButton:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_LEFT")
