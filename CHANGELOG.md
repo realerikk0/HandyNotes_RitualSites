@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1
+
+- Adds an in-addon language selector with Game language, English, Simplified Chinese, and Russian options.
+- Adds CurseForge/GitHub release packaging through GitHub Actions.
+- Keeps the Ritual Sites world map filter button and category filters from 1.1.0.
+
 ## 1.1.0
 
 - Adds a Ritual Sites filter button to the world map using the modern HandyNotes map button column style.

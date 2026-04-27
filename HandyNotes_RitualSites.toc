@@ -4,10 +4,11 @@
 ## Notes: Marks Ritual Site collectible points.
 ## Notes-zhCN: 标记仪式场地内的海藻、湿漉漉的窝和沙沙响的隐秘草丛。
 ## Author: liuyu
-## Version: 1.1.0
+## Version: 1.1.1
 ## IconTexture: Interface\Icons\Spell_Shadow_Rune
 ## DefaultState: enabled
 ## X-Category: Map
+## X-Curse-Project-ID: 1525494
 ## OptionalDeps: Krowi_WorldMapButtons, HandyNotes_Midnight, HandyNotes_MidnightTreasures, HandyNotes_WarWithin
 ## RequiredDeps: HandyNotes
 ## SavedVariables: HandyNotes_RitualSitesDB

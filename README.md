@@ -14,7 +14,7 @@ HandyNotes: Ritual Sites is a small World of Warcraft Retail 12.0.5 addon that a
   - Void-touched lynx thickets
 - Left-click a marker to set the built-in game waypoint.
 - Right-click a marker to add a TomTom waypoint when TomTom is installed.
-- Supports English and Simplified Chinese.
+- Supports Game language, English, Simplified Chinese, and Russian language options.
 
 ## Requirements
 
@@ -36,14 +36,15 @@ The folder must contain `HandyNotes_RitualSites.toc` directly inside it.
 
 GitHub Actions uses `BigWigsMods/packager@v2` when a `v*` tag is pushed.
 
-For CurseForge upload, configure these repository secrets after the CurseForge project exists:
+For CurseForge upload, configure this repository secret:
 
 - `CF_API_KEY`
-- `CF_PROJECT_ID`
+
+The CurseForge project ID is stored in `HandyNotes_RitualSites.toc`.
 
 Then push a tag such as:
 
 ```bash
-git tag v1.1.0
-git push origin v1.1.0
+git tag v1.1.1
+git push origin v1.1.1
 ```

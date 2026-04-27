@@ -8,46 +8,52 @@ end
 local MAP_DAGGERSPINE_POINT = 2594
 local CATEGORY_SEAWEED = "seaweed"
 local CATEGORY_LYNX = "lynx"
+local DEFAULT_LOCALE = "enUS"
+local LANGUAGE_AUTO = "auto"
 
-local locale = GetLocale()
-local L = {
-    ["HandyNotes: Ritual Sites"] = "HandyNotes: Ritual Sites",
-    ["Ritual Site collectible points."] = "Ritual Site collectible points.",
-    ["Display"] = "Display",
-    ["Categories"] = "Categories",
-    ["Show world map filter button"] = "Show world map filter button",
-    ["Show the Ritual Sites filter button on the world map."] = "Show the Ritual Sites filter button on the world map.",
-    ["Show markers on minimap"] = "Show markers on minimap",
-    ["Show Ritual Sites markers on the minimap."] = "Show Ritual Sites markers on the minimap.",
-    ["Icon scale"] = "Icon scale",
-    ["Adjust the size of Ritual Sites markers."] = "Adjust the size of Ritual Sites markers.",
-    ["Icon alpha"] = "Icon alpha",
-    ["Adjust the transparency of Ritual Sites markers."] = "Adjust the transparency of Ritual Sites markers.",
-    ["Show seaweed and soggy nest"] = "Show seaweed and soggy nest",
-    ["Show washed-up seaweed and the soggy nest."] = "Show washed-up seaweed and the soggy nest.",
-    ["Show void-touched lynx thickets"] = "Show void-touched lynx thickets",
-    ["Show rustling hidden thickets for the void-touched lynx collectible."] = "Show rustling hidden thickets for the void-touched lynx collectible.",
-    ["Reset filters"] = "Reset filters",
-    ["Restore all Ritual Sites filters to defaults."] = "Restore all Ritual Sites filters to defaults.",
-    ["Washed-Up Seaweed"] = "Washed-Up Seaweed",
-    ["Has a chance to spawn the void-touched poisonfin."] = "Has a chance to spawn the void-touched poisonfin.",
-    ["Soggy Nest"] = "Soggy Nest",
-    ["Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet."] = "Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet.",
-    ["Rustling Hidden Thicket"] = "Rustling Hidden Thicket",
-    ["Click the thicket repeatedly until the void-touched lynx kitten becomes interactable."] = "Click the thicket repeatedly until the void-touched lynx kitten becomes interactable.",
-    ["Coordinates"] = "Coordinates",
-    ["Left-click: set in-game waypoint"] = "Left-click: set in-game waypoint",
-    ["Right-click: add TomTom waypoint"] = "Right-click: add TomTom waypoint",
-    ["Show all"] = "Show all",
-    ["Open HandyNotes options"] = "Open HandyNotes options",
-}
-
-if locale == "zhCN" then
-    L = {
+local TRANSLATIONS = {
+    enUS = {
+        ["HandyNotes: Ritual Sites"] = "HandyNotes: Ritual Sites",
+        ["Ritual Site collectible points."] = "Ritual Site collectible points.",
+        ["Display"] = "Display",
+        ["Categories"] = "Categories",
+        ["Language"] = "Language",
+        ["Game language"] = "Game language",
+        ["Choose the language used by this plugin."] = "Choose the language used by this plugin.",
+        ["Show world map filter button"] = "Show world map filter button",
+        ["Show the Ritual Sites filter button on the world map."] = "Show the Ritual Sites filter button on the world map.",
+        ["Show markers on minimap"] = "Show markers on minimap",
+        ["Show Ritual Sites markers on the minimap."] = "Show Ritual Sites markers on the minimap.",
+        ["Icon scale"] = "Icon scale",
+        ["Adjust the size of Ritual Sites markers."] = "Adjust the size of Ritual Sites markers.",
+        ["Icon alpha"] = "Icon alpha",
+        ["Adjust the transparency of Ritual Sites markers."] = "Adjust the transparency of Ritual Sites markers.",
+        ["Show seaweed and soggy nest"] = "Show seaweed and soggy nest",
+        ["Show washed-up seaweed and the soggy nest."] = "Show washed-up seaweed and the soggy nest.",
+        ["Show void-touched lynx thickets"] = "Show void-touched lynx thickets",
+        ["Show rustling hidden thickets for the void-touched lynx collectible."] = "Show rustling hidden thickets for the void-touched lynx collectible.",
+        ["Reset filters"] = "Reset filters",
+        ["Restore all Ritual Sites filters to defaults."] = "Restore all Ritual Sites filters to defaults.",
+        ["Washed-Up Seaweed"] = "Washed-Up Seaweed",
+        ["Has a chance to spawn the void-touched poisonfin."] = "Has a chance to spawn the void-touched poisonfin.",
+        ["Soggy Nest"] = "Soggy Nest",
+        ["Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet."] = "Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet.",
+        ["Rustling Hidden Thicket"] = "Rustling Hidden Thicket",
+        ["Click the thicket repeatedly until the void-touched lynx kitten becomes interactable."] = "Click the thicket repeatedly until the void-touched lynx kitten becomes interactable.",
+        ["Coordinates"] = "Coordinates",
+        ["Left-click: set in-game waypoint"] = "Left-click: set in-game waypoint",
+        ["Right-click: add TomTom waypoint"] = "Right-click: add TomTom waypoint",
+        ["Show all"] = "Show all",
+        ["Open HandyNotes options"] = "Open HandyNotes options",
+    },
+    zhCN = {
         ["HandyNotes: Ritual Sites"] = "HandyNotes: Ritual Sites（仪式场地）",
         ["Ritual Site collectible points."] = "仪式场地收集点。",
         ["Display"] = "显示",
         ["Categories"] = "类别",
+        ["Language"] = "语言",
+        ["Game language"] = "游戏语言",
+        ["Choose the language used by this plugin."] = "选择此插件使用的语言。",
         ["Show world map filter button"] = "显示世界地图过滤按钮",
         ["Show the Ritual Sites filter button on the world map."] = "在世界地图上显示仪式场地过滤按钮。",
         ["Show markers on minimap"] = "在小地图显示标记",
@@ -73,45 +79,61 @@ if locale == "zhCN" then
         ["Right-click: add TomTom waypoint"] = "右键：添加 TomTom 路径点",
         ["Show all"] = "显示全部",
         ["Open HandyNotes options"] = "打开 HandyNotes 设置",
-    }
-end
--- Translator ZamestoTV
-if locale == "ruRU" then
-    L = {
-    ["HandyNotes: Ritual Sites"] = "HandyNotes: Ritual Sites",
-    ["Ritual Site collectible points."] = "Точки сбора в местах ритуалов.",
-    ["Display"] = "Отображение",
-    ["Categories"] = "Категории",
-    ["Show world map filter button"] = "Кнопка фильтра на карте мира",
-    ["Show the Ritual Sites filter button on the world map."] = "Показывать кнопку фильтра мест ритуалов на карте мира.",
-    ["Show markers on minimap"] = "Метки на миникарте",
-    ["Show Ritual Sites markers on the minimap."] = "Показывать метки мест ритуалов на миникарте.",
-    ["Icon scale"] = "Масштаб значков",
-    ["Adjust the size of Ritual Sites markers."] = "Настройка размера меток мест ритуалов.",
-    ["Icon alpha"] = "Прозрачность значков",
-    ["Adjust the transparency of Ritual Sites markers."] = "Настройка прозрачности меток мест ритуалов.",
-    ["Show seaweed and soggy nest"] = "Водоросли и Промокшее гнездо",
-    ["Show washed-up seaweed and the soggy nest."] = "Показывать выброшенные водоросли и Промокшее гнездо.",
-    ["Show void-touched lynx thickets"] = "Шуршащий куст",
-    ["Show rustling hidden thickets for the void-touched lynx collectible."] = "Показывать Шуршащие кусты для Меченного Бездной рысенка.",
-    ["Reset filters"] = "Сбросить фильтры",
-    ["Restore all Ritual Sites filters to defaults."] = "Сбросить все фильтры мест ритуалов по умолчанию.",
-    ["Washed-Up Seaweed"] = "Выброшенные на берег водоросли",
-    ["Has a chance to spawn the void-touched poisonfin."] = "Может призвать Меченного Бездной морского варана.",
-    ["Soggy Nest"] = "Промокшее гнездо",
-    ["Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet."] = "Используйте здесь Слюнявую рысью игрушку, чтобы получить питомца Омытый Бездной морской варан.",
-    ["Rustling Hidden Thicket"] = "Шуршащий куст",
-    ["Click the thicket repeatedly until the void-touched lynx kitten becomes interactable."] = "Нажимайте на куст, пока рысь не станет доступна для взаимодействия.",
-    ["Coordinates"] = "Координаты",
-    ["Left-click: set in-game waypoint"] = "ЛКМ: установить игровую метку",
-    ["Right-click: add TomTom waypoint"] = "ПКМ: добавить точку TomTom",
-    ["Show all"] = "Показать все",
-    ["Open HandyNotes options"] = "Открыть настройки HandyNotes",
-    }
-end
+    },
+    ruRU = {
+        ["HandyNotes: Ritual Sites"] = "HandyNotes: Ritual Sites",
+        ["Ritual Site collectible points."] = "Точки сбора в местах ритуалов.",
+        ["Display"] = "Отображение",
+        ["Categories"] = "Категории",
+        ["Language"] = "Язык",
+        ["Game language"] = "Язык игры",
+        ["Choose the language used by this plugin."] = "Выберите язык, используемый этим аддоном.",
+        ["Show world map filter button"] = "Кнопка фильтра на карте мира",
+        ["Show the Ritual Sites filter button on the world map."] = "Показывать кнопку фильтра мест ритуалов на карте мира.",
+        ["Show markers on minimap"] = "Метки на миникарте",
+        ["Show Ritual Sites markers on the minimap."] = "Показывать метки мест ритуалов на миникарте.",
+        ["Icon scale"] = "Масштаб значков",
+        ["Adjust the size of Ritual Sites markers."] = "Настройка размера меток мест ритуалов.",
+        ["Icon alpha"] = "Прозрачность значков",
+        ["Adjust the transparency of Ritual Sites markers."] = "Настройка прозрачности меток мест ритуалов.",
+        ["Show seaweed and soggy nest"] = "Водоросли и Промокшее гнездо",
+        ["Show washed-up seaweed and the soggy nest."] = "Показывать выброшенные водоросли и Промокшее гнездо.",
+        ["Show void-touched lynx thickets"] = "Шуршащий куст",
+        ["Show rustling hidden thickets for the void-touched lynx collectible."] = "Показывать Шуршащие кусты для Меченного Бездной рысенка.",
+        ["Reset filters"] = "Сбросить фильтры",
+        ["Restore all Ritual Sites filters to defaults."] = "Сбросить все фильтры мест ритуалов по умолчанию.",
+        ["Washed-Up Seaweed"] = "Выброшенные на берег водоросли",
+        ["Has a chance to spawn the void-touched poisonfin."] = "Может призвать Меченного Бездной морского варана.",
+        ["Soggy Nest"] = "Промокшее гнездо",
+        ["Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet."] = "Используйте здесь Слюнявую рысью игрушку, чтобы получить питомца Омытый Бездной морской варан.",
+        ["Rustling Hidden Thicket"] = "Шуршащий куст",
+        ["Click the thicket repeatedly until the void-touched lynx kitten becomes interactable."] = "Нажимайте на куст, пока рысь не станет доступна для взаимодействия.",
+        ["Coordinates"] = "Координаты",
+        ["Left-click: set in-game waypoint"] = "ЛКМ: установить игровую метку",
+        ["Right-click: add TomTom waypoint"] = "ПКМ: добавить точку TomTom",
+        ["Show all"] = "Показать все",
+        ["Open HandyNotes options"] = "Открыть настройки HandyNotes",
+    },
+}
 
-local PLUGIN_DISPLAY_NAME = L["HandyNotes: Ritual Sites"]
+local LANGUAGE_NAMES = {
+    [LANGUAGE_AUTO] = "Game language",
+    enUS = "English",
+    zhCN = "简体中文",
+    ruRU = "Русский",
+}
+
 local defaults = {
+    language = LANGUAGE_AUTO,
+    showMapButton = true,
+    showMinimap = true,
+    iconScale = 1,
+    iconAlpha = 1,
+    showSeaweed = true,
+    showLynx = true,
+}
+
+local resettableDefaults = {
     showMapButton = true,
     showMinimap = true,
     iconScale = 1,
@@ -138,13 +160,40 @@ local function GetNumberOption(key)
     return tonumber(GetOption(key)) or defaults[key] or 1
 end
 
+local function GetActiveLocale()
+    local language = GetOption("language")
+    if language ~= LANGUAGE_AUTO and TRANSLATIONS[language] then
+        return language
+    end
+
+    local gameLocale = GetLocale()
+    if TRANSLATIONS[gameLocale] then
+        return gameLocale
+    end
+
+    return DEFAULT_LOCALE
+end
+
+local function T(key)
+    local localeTable = TRANSLATIONS[GetActiveLocale()] or TRANSLATIONS[DEFAULT_LOCALE]
+    return localeTable[key] or TRANSLATIONS[DEFAULT_LOCALE][key] or key
+end
+
 local function Refresh()
     HandyNotes:SendMessage("HandyNotes_NotifyUpdate", ADDON_NAME)
+end
+
+local function NotifyOptionsChanged()
+    local AceConfigRegistry = LibStub("AceConfigRegistry-3.0", true)
+    if AceConfigRegistry then
+        AceConfigRegistry:NotifyChange("HandyNotes")
+    end
 end
 
 local function SetOption(key, value)
     db[key] = value
     Refresh()
+    NotifyOptionsChanged()
     if UpdateMapButton then
         UpdateMapButton()
     end
@@ -155,10 +204,11 @@ local function ToggleOption(key)
 end
 
 local function ResetOptions()
-    for key, value in pairs(defaults) do
+    for key, value in pairs(resettableDefaults) do
         db[key] = value
     end
     Refresh()
+    NotifyOptionsChanged()
     if UpdateMapButton then
         UpdateMapButton()
     end
@@ -181,11 +231,11 @@ local function Coord(x, y)
     return HandyNotes:getCoord(x / 100, y / 100)
 end
 
-local function AddNode(x, y, category, title, note, icon, scale)
+local function AddNode(x, y, category, titleKey, noteKey, icon, scale)
     nodes[Coord(x, y)] = {
         category = category,
-        title = title,
-        note = note,
+        titleKey = titleKey,
+        noteKey = noteKey,
         icon = icon,
         scale = scale or 1,
         alpha = 1,
@@ -193,11 +243,11 @@ local function AddNode(x, y, category, title, note, icon, scale)
 end
 
 local function AddKelp(x, y)
-    AddNode(x, y, CATEGORY_SEAWEED, L["Washed-Up Seaweed"], L["Has a chance to spawn the void-touched poisonfin."], ICON_KELP, 1.15)
+    AddNode(x, y, CATEGORY_SEAWEED, "Washed-Up Seaweed", "Has a chance to spawn the void-touched poisonfin.", ICON_KELP, 1.15)
 end
 
 local function AddBush(x, y)
-    AddNode(x, y, CATEGORY_LYNX, L["Rustling Hidden Thicket"], L["Click the thicket repeatedly until the void-touched lynx kitten becomes interactable."], ICON_LYNX, 1.1)
+    AddNode(x, y, CATEGORY_LYNX, "Rustling Hidden Thicket", "Click the thicket repeatedly until the void-touched lynx kitten becomes interactable.", ICON_LYNX, 1.1)
 end
 
 AddKelp(66.01, 73.85)
@@ -208,7 +258,7 @@ AddKelp(38.10, 63.62)
 AddKelp(46.65, 46.02)
 AddKelp(53.27, 55.43)
 AddKelp(50.00, 55.24)
-AddNode(30.03, 63.12, CATEGORY_SEAWEED, L["Soggy Nest"], L["Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet."], ICON_NEST, 1.1)
+AddNode(30.03, 63.12, CATEGORY_SEAWEED, "Soggy Nest", "Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet.", ICON_NEST, 1.1)
 
 AddBush(66.40, 52.46)
 AddBush(65.70, 51.60)
@@ -271,14 +321,14 @@ function handler:OnEnter(mapID, coord)
     end
 
     local x, y = HandyNotes:getXY(coord)
-    GameTooltip:SetText(node.title)
-    if node.note then
-        GameTooltip:AddLine(node.note, 1, 1, 1, true)
+    GameTooltip:SetText(T(node.titleKey))
+    if node.noteKey then
+        GameTooltip:AddLine(T(node.noteKey), 1, 1, 1, true)
     end
-    GameTooltip:AddDoubleLine(L["Coordinates"], ("%.2f, %.2f"):format(x * 100, y * 100), 0.7, 0.7, 0.7, 0.7, 0.7, 0.7)
-    GameTooltip:AddLine(L["Left-click: set in-game waypoint"], 0.5, 0.8, 1)
+    GameTooltip:AddDoubleLine(T("Coordinates"), ("%.2f, %.2f"):format(x * 100, y * 100), 0.7, 0.7, 0.7, 0.7, 0.7, 0.7)
+    GameTooltip:AddLine(T("Left-click: set in-game waypoint"), 0.5, 0.8, 1)
     if TomTom then
-        GameTooltip:AddLine(L["Right-click: add TomTom waypoint"], 0.5, 0.8, 1)
+        GameTooltip:AddLine(T("Right-click: add TomTom waypoint"), 0.5, 0.8, 1)
     end
     GameTooltip:Show()
 end
@@ -307,7 +357,7 @@ function handler:OnClick(button, down, mapID, coord)
         end
     elseif button == "RightButton" and TomTom then
         TomTom:AddWaypoint(mapID, x, y, {
-            title = node.title,
+            title = T(node.titleKey),
             persistent = false,
             minimap = true,
             world = true,
@@ -315,10 +365,25 @@ function handler:OnClick(button, down, mapID, coord)
     end
 end
 
+local function OptionName(key)
+    return function()
+        return T(key)
+    end
+end
+
+local function OptionValues()
+    return {
+        [LANGUAGE_AUTO] = T(LANGUAGE_NAMES[LANGUAGE_AUTO]),
+        enUS = LANGUAGE_NAMES.enUS,
+        zhCN = LANGUAGE_NAMES.zhCN,
+        ruRU = LANGUAGE_NAMES.ruRU,
+    }
+end
+
 local options = {
     type = "group",
-    name = PLUGIN_DISPLAY_NAME,
-    desc = L["Ritual Site collectible points."],
+    name = TRANSLATIONS[DEFAULT_LOCALE]["HandyNotes: Ritual Sites"],
+    desc = OptionName("Ritual Site collectible points."),
     get = function(info)
         return GetOption(info[#info])
     end,
@@ -328,26 +393,34 @@ local options = {
     args = {
         display = {
             type = "group",
-            name = L["Display"],
+            name = OptionName("Display"),
             inline = true,
             order = 10,
             args = {
+                language = {
+                    type = "select",
+                    name = OptionName("Language"),
+                    desc = OptionName("Choose the language used by this plugin."),
+                    values = OptionValues,
+                    sorting = { LANGUAGE_AUTO, "enUS", "zhCN", "ruRU" },
+                    order = 5,
+                },
                 showMapButton = {
                     type = "toggle",
-                    name = L["Show world map filter button"],
-                    desc = L["Show the Ritual Sites filter button on the world map."],
+                    name = OptionName("Show world map filter button"),
+                    desc = OptionName("Show the Ritual Sites filter button on the world map."),
                     order = 10,
                 },
                 showMinimap = {
                     type = "toggle",
-                    name = L["Show markers on minimap"],
-                    desc = L["Show Ritual Sites markers on the minimap."],
+                    name = OptionName("Show markers on minimap"),
+                    desc = OptionName("Show Ritual Sites markers on the minimap."),
                     order = 20,
                 },
                 iconScale = {
                     type = "range",
-                    name = L["Icon scale"],
-                    desc = L["Adjust the size of Ritual Sites markers."],
+                    name = OptionName("Icon scale"),
+                    desc = OptionName("Adjust the size of Ritual Sites markers."),
                     min = 0.5,
                     max = 2,
                     step = 0.05,
@@ -355,8 +428,8 @@ local options = {
                 },
                 iconAlpha = {
                     type = "range",
-                    name = L["Icon alpha"],
-                    desc = L["Adjust the transparency of Ritual Sites markers."],
+                    name = OptionName("Icon alpha"),
+                    desc = OptionName("Adjust the transparency of Ritual Sites markers."),
                     min = 0.25,
                     max = 1,
                     step = 0.05,
@@ -367,28 +440,28 @@ local options = {
         },
         categories = {
             type = "group",
-            name = L["Categories"],
+            name = OptionName("Categories"),
             inline = true,
             order = 20,
             args = {
                 showSeaweed = {
                     type = "toggle",
-                    name = L["Show seaweed and soggy nest"],
-                    desc = L["Show washed-up seaweed and the soggy nest."],
+                    name = OptionName("Show seaweed and soggy nest"),
+                    desc = OptionName("Show washed-up seaweed and the soggy nest."),
                     order = 10,
                 },
                 showLynx = {
                     type = "toggle",
-                    name = L["Show void-touched lynx thickets"],
-                    desc = L["Show rustling hidden thickets for the void-touched lynx collectible."],
+                    name = OptionName("Show void-touched lynx thickets"),
+                    desc = OptionName("Show rustling hidden thickets for the void-touched lynx collectible."),
                     order = 20,
                 },
             },
         },
         reset = {
             type = "execute",
-            name = L["Reset filters"],
-            desc = L["Restore all Ritual Sites filters to defaults."],
+            name = OptionName("Reset filters"),
+            desc = OptionName("Restore all Ritual Sites filters to defaults."),
             order = 30,
             func = ResetOptions,
         },
@@ -414,23 +487,23 @@ local function ShowFilterMenu(owner)
     end
 
     MenuUtil.CreateContextMenu(owner, function(_, rootDescription)
-        rootDescription:CreateTitle(L["HandyNotes: Ritual Sites"])
-        rootDescription:CreateCheckbox(L["Show seaweed and soggy nest"], function()
+        rootDescription:CreateTitle(T("HandyNotes: Ritual Sites"))
+        rootDescription:CreateCheckbox(T("Show seaweed and soggy nest"), function()
             return GetOption("showSeaweed")
         end, function()
             ToggleOption("showSeaweed")
         end)
-        rootDescription:CreateCheckbox(L["Show void-touched lynx thickets"], function()
+        rootDescription:CreateCheckbox(T("Show void-touched lynx thickets"), function()
             return GetOption("showLynx")
         end, function()
             ToggleOption("showLynx")
         end)
         rootDescription:CreateDivider()
-        rootDescription:CreateButton(L["Show all"], function()
+        rootDescription:CreateButton(T("Show all"), function()
             SetOption("showSeaweed", true)
             SetOption("showLynx", true)
         end)
-        rootDescription:CreateButton(L["Open HandyNotes options"], OpenHandyNotesOptions)
+        rootDescription:CreateButton(T("Open HandyNotes options"), OpenHandyNotesOptions)
     end)
 end
 
@@ -470,9 +543,9 @@ local function CreateMapButton()
     mapButton:SetScript("OnClick", ShowFilterMenu)
     mapButton:SetScript("OnEnter", function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip:SetText(L["HandyNotes: Ritual Sites"])
-        GameTooltip:AddLine(L["Show seaweed and soggy nest"], GetOption("showSeaweed") and 0.4 or 0.8, GetOption("showSeaweed") and 1 or 0.4, 0.4)
-        GameTooltip:AddLine(L["Show void-touched lynx thickets"], GetOption("showLynx") and 0.4 or 0.8, GetOption("showLynx") and 1 or 0.4, 0.4)
+        GameTooltip:SetText(T("HandyNotes: Ritual Sites"))
+        GameTooltip:AddLine(T("Show seaweed and soggy nest"), GetOption("showSeaweed") and 0.4 or 0.8, GetOption("showSeaweed") and 1 or 0.4, 0.4)
+        GameTooltip:AddLine(T("Show void-touched lynx thickets"), GetOption("showLynx") and 0.4 or 0.8, GetOption("showLynx") and 1 or 0.4, 0.4)
         GameTooltip:Show()
     end)
     mapButton:SetScript("OnLeave", GameTooltip_Hide)

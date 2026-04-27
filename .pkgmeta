@@ -1,12 +1,17 @@
 package-as: HandyNotes_RitualSites
 enable-nolib-creation: no
+
 manual-changelog:
   filename: CHANGELOG.md
   markup-type: markdown
+
 ignore:
   - .git
   - .github
-  - .gitignore
+  - .idea
   - .pkgmeta
+  - .release
   - README.md
-
+  - CHANGELOG.md
+  - LICENSE
+  - "*.zip"
