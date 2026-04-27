@@ -75,6 +75,40 @@ if locale == "zhCN" then
         ["Open HandyNotes options"] = "打开 HandyNotes 设置",
     }
 end
+-- Translator ZamestoTV
+if locale == "ruRU" then
+    L = {
+    ["HandyNotes: Ritual Sites"] = "HandyNotes: Ritual Sites",
+    ["Ritual Site collectible points."] = "Точки сбора в местах ритуалов.",
+    ["Display"] = "Отображение",
+    ["Categories"] = "Категории",
+    ["Show world map filter button"] = "Кнопка фильтра на карте мира",
+    ["Show the Ritual Sites filter button on the world map."] = "Показывать кнопку фильтра мест ритуалов на карте мира.",
+    ["Show markers on minimap"] = "Метки на миникарте",
+    ["Show Ritual Sites markers on the minimap."] = "Показывать метки мест ритуалов на миникарте.",
+    ["Icon scale"] = "Масштаб значков",
+    ["Adjust the size of Ritual Sites markers."] = "Настройка размера меток мест ритуалов.",
+    ["Icon alpha"] = "Прозрачность значков",
+    ["Adjust the transparency of Ritual Sites markers."] = "Настройка прозрачности меток мест ритуалов.",
+    ["Show seaweed and soggy nest"] = "Водоросли и Промокшее гнездо",
+    ["Show washed-up seaweed and the soggy nest."] = "Показывать выброшенные водоросли и Промокшее гнездо.",
+    ["Show void-touched lynx thickets"] = "Шуршащий куст",
+    ["Show rustling hidden thickets for the void-touched lynx collectible."] = "Показывать Шуршащие кусты для Меченного Бездной рысенка.",
+    ["Reset filters"] = "Сбросить фильтры",
+    ["Restore all Ritual Sites filters to defaults."] = "Сбросить все фильтры мест ритуалов по умолчанию.",
+    ["Washed-Up Seaweed"] = "Выброшенные на берег водоросли",
+    ["Has a chance to spawn the void-touched poisonfin."] = "Может призвать Меченного Бездной морского варана.",
+    ["Soggy Nest"] = "Промокшее гнездо",
+    ["Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet."] = "Используйте здесь Слюнявую рысью игрушку, чтобы получить питомца Омытый Бездной морской варан.",
+    ["Rustling Hidden Thicket"] = "Шуршащий куст",
+    ["Click the thicket repeatedly until the void-touched lynx kitten becomes interactable."] = "Нажимайте на куст, пока рысь не станет доступна для взаимодействия.",
+    ["Coordinates"] = "Координаты",
+    ["Left-click: set in-game waypoint"] = "ЛКМ: установить игровую метку",
+    ["Right-click: add TomTom waypoint"] = "ПКМ: добавить точку TomTom",
+    ["Show all"] = "Показать все",
+    ["Open HandyNotes options"] = "Открыть настройки HandyNotes",
+    }
+end
 
 local PLUGIN_DISPLAY_NAME = L["HandyNotes: Ritual Sites"]
 local defaults = {
