@@ -6,15 +6,18 @@ if not HandyNotes then
 end
 
 local MAP_DAGGERSPINE_POINT = 2594
+local MAP_BROKEN_THRONE = 2585
 local CATEGORY_SEAWEED = "seaweed"
 local CATEGORY_LYNX = "lynx"
+local CATEGORY_BROKEN_THRONE_REWARDS = "brokenThroneRewards"
+local CATEGORY_BROKEN_THRONE_CHALLENGES = "brokenThroneChallenges"
 local DEFAULT_LOCALE = "enUS"
 local LANGUAGE_AUTO = "auto"
 
 local TRANSLATIONS = {
     enUS = {
         ["HandyNotes: Ritual Sites"] = "HandyNotes: Ritual Sites",
-        ["Ritual Site collectible points."] = "Ritual Site collectible points.",
+        ["Ritual Site collectible points."] = "Ritual Site collectible and challenge unlock points.",
         ["Display"] = "Display",
         ["Categories"] = "Categories",
         ["Language"] = "Language",
@@ -32,6 +35,10 @@ local TRANSLATIONS = {
         ["Show washed-up seaweed and the soggy nest."] = "Show washed-up seaweed and the soggy nest.",
         ["Show void-touched lynx thickets"] = "Show void-touched lynx thickets",
         ["Show rustling hidden thickets for the void-touched lynx collectible."] = "Show rustling hidden thickets for the void-touched lynx collectible.",
+        ["Show Broken Throne rewards"] = "Show Broken Throne rewards",
+        ["Show fixed Broken Throne collectible and reward points."] = "Show fixed Broken Throne collectible and reward points.",
+        ["Show Broken Throne challenge unlocks"] = "Show Broken Throne challenge unlocks",
+        ["Show Malevolent Boons obelisks and the tainted bone pile."] = "Show Malevolent Boons obelisks and the tainted bone pile.",
         ["Reset filters"] = "Reset filters",
         ["Restore all Ritual Sites filters to defaults."] = "Restore all Ritual Sites filters to defaults.",
         ["Washed-Up Seaweed"] = "Washed-Up Seaweed",
@@ -40,6 +47,20 @@ local TRANSLATIONS = {
         ["Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet."] = "Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet.",
         ["Rustling Hidden Thicket"] = "Rustling Hidden Thicket",
         ["Click the thicket repeatedly until the void-touched lynx kitten becomes interactable."] = "Click the thicket repeatedly until the void-touched lynx kitten becomes interactable.",
+        ["Misplaced Ritual Candle"] = "Misplaced Ritual Candle",
+        ["Bring this candle to the nearby ritual circle to repair the Void Eagle ritual."] = "Bring this candle to the nearby ritual circle to repair the Void Eagle ritual.",
+        ["Void Eagle Ritual Site"] = "Void Eagle Ritual Site",
+        ["Repair the circle with the misplaced ritual candle, then start the ritual for the Void-Corrupted Hex Eagle."] = "Repair the circle with the misplaced ritual candle, then start the ritual for the Void-Corrupted Hex Eagle.",
+        ["Void Eagle Wind Gale"] = "Void Eagle Wind Gale",
+        ["Use the Void Eagle mount and follow the feather trail to this gale for the Void-Scarred Eaglet."] = "Use the Void Eagle mount and follow the feather trail to this gale for the Void-Scarred Eaglet.",
+        ["Lost Bear Cub"] = "Lost Bear Cub",
+        ["Feed the hidden Lost Bear Cub 1 Practically Pork to receive the Chubs pet."] = "Feed the hidden Lost Bear Cub 1 Practically Pork to receive the Chubs pet.",
+        ["Pile of Meat Carcasses"] = "Pile of Meat Carcasses",
+        ["Summon Chubs here and feed the bear mother 5 Practically Pork for the mount."] = "Summon Chubs here and feed the bear mother 5 Practically Pork for the mount.",
+        ["Malevolent Boons Obelisk"] = "Malevolent Boons Obelisk",
+        ["Walk up to these obelisks for the Malevolent Boons challenge unlock."] = "Walk up to these obelisks for the Malevolent Boons challenge unlock.",
+        ["Tainted Bone Pile"] = "Tainted Bone Pile",
+        ["Loot this bone pile to start the Tainted Corpses challenge unlock quest."] = "Loot this bone pile to start the Tainted Corpses challenge unlock quest.",
         ["Coordinates"] = "Coordinates",
         ["Left-click: set in-game waypoint"] = "Left-click: set in-game waypoint",
         ["Right-click: add TomTom waypoint"] = "Right-click: add TomTom waypoint",
@@ -48,7 +69,7 @@ local TRANSLATIONS = {
     },
     zhCN = {
         ["HandyNotes: Ritual Sites"] = "HandyNotes: Ritual Sites（仪式场地）",
-        ["Ritual Site collectible points."] = "仪式场地收集点。",
+        ["Ritual Site collectible points."] = "仪式场地收集和挑战解锁点。",
         ["Display"] = "显示",
         ["Categories"] = "类别",
         ["Language"] = "语言",
@@ -66,6 +87,10 @@ local TRANSLATIONS = {
         ["Show washed-up seaweed and the soggy nest."] = "显示冲上岸的海藻和湿漉漉的窝。",
         ["Show void-touched lynx thickets"] = "显示虚触山猫草丛",
         ["Show rustling hidden thickets for the void-touched lynx collectible."] = "显示虚触山猫收集用的沙沙响的隐秘草丛。",
+        ["Show Broken Throne rewards"] = "显示残破神庙奖励点",
+        ["Show fixed Broken Throne collectible and reward points."] = "显示残破神庙内固定的收集和奖励点。",
+        ["Show Broken Throne challenge unlocks"] = "显示残破神庙挑战解锁点",
+        ["Show Malevolent Boons obelisks and the tainted bone pile."] = "显示恶意赐福方尖碑和腐化骨堆。",
         ["Reset filters"] = "重置过滤",
         ["Restore all Ritual Sites filters to defaults."] = "将所有仪式场地过滤设置恢复为默认值。",
         ["Washed-Up Seaweed"] = "冲上岸的海藻",
@@ -74,6 +99,20 @@ local TRANSLATIONS = {
         ["Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet."] = "在这里使用湿透的山猫玩具，可获得虚空腐化的毒鳍龙宠物。",
         ["Rustling Hidden Thicket"] = "沙沙响的隐秘草丛",
         ["Click the thicket repeatedly until the void-touched lynx kitten becomes interactable."] = "反复点击草丛，直到虚空之触山猫幼崽可互动。",
+        ["Misplaced Ritual Candle"] = "遗失的仪式蜡烛",
+        ["Bring this candle to the nearby ritual circle to repair the Void Eagle ritual."] = "将这支蜡烛带到附近的仪式法阵，用来修复虚空雄鹰仪式。",
+        ["Void Eagle Ritual Site"] = "虚空雄鹰仪式地点",
+        ["Repair the circle with the misplaced ritual candle, then start the ritual for the Void-Corrupted Hex Eagle."] = "用遗失的仪式蜡烛修复法阵，然后启动仪式召唤虚空腐化的妖术雄鹰。",
+        ["Void Eagle Wind Gale"] = "虚空雄鹰风涡",
+        ["Use the Void Eagle mount and follow the feather trail to this gale for the Void-Scarred Eaglet."] = "骑乘虚空雄鹰并沿羽毛轨迹来到这里，可前往虚染雏鹰的巢。",
+        ["Lost Bear Cub"] = "走失的熊崽",
+        ["Feed the hidden Lost Bear Cub 1 Practically Pork to receive the Chubs pet."] = "喂给隐藏的走失熊崽 1 份 Practically Pork，可获得 Chubs 宠物。",
+        ["Pile of Meat Carcasses"] = "肉尸堆",
+        ["Summon Chubs here and feed the bear mother 5 Practically Pork for the mount."] = "在这里召唤 Chubs，并喂给熊妈妈 5 份 Practically Pork 以获得坐骑。",
+        ["Malevolent Boons Obelisk"] = "恶意赐福方尖碑",
+        ["Walk up to these obelisks for the Malevolent Boons challenge unlock."] = "靠近这些方尖碑以解锁恶意赐福挑战。",
+        ["Tainted Bone Pile"] = "腐化骨堆",
+        ["Loot this bone pile to start the Tainted Corpses challenge unlock quest."] = "拾取这个骨堆以开始腐化尸骸挑战解锁任务。",
         ["Coordinates"] = "坐标",
         ["Left-click: set in-game waypoint"] = "左键：设置游戏内导航点",
         ["Right-click: add TomTom waypoint"] = "右键：添加 TomTom 路径点",
@@ -82,7 +121,7 @@ local TRANSLATIONS = {
     },
     ruRU = {
         ["HandyNotes: Ritual Sites"] = "HandyNotes: Ritual Sites",
-        ["Ritual Site collectible points."] = "Точки сбора в местах ритуалов.",
+        ["Ritual Site collectible points."] = "Точки коллекционных предметов и открытия испытаний в местах ритуалов.",
         ["Display"] = "Отображение",
         ["Categories"] = "Категории",
         ["Language"] = "Язык",
@@ -100,6 +139,10 @@ local TRANSLATIONS = {
         ["Show washed-up seaweed and the soggy nest."] = "Показывать выброшенные водоросли и Промокшее гнездо.",
         ["Show void-touched lynx thickets"] = "Шуршащий куст",
         ["Show rustling hidden thickets for the void-touched lynx collectible."] = "Показывать Шуршащие кусты для Меченного Бездной рысенка.",
+        ["Show Broken Throne rewards"] = "Награды Расколотого Трона",
+        ["Show fixed Broken Throne collectible and reward points."] = "Показывать фиксированные точки коллекционных предметов и наград в Расколотом Троне.",
+        ["Show Broken Throne challenge unlocks"] = "Испытания Расколотого Трона",
+        ["Show Malevolent Boons obelisks and the tainted bone pile."] = "Показывать обелиски Злобных даров и Оскверненную кучу костей.",
         ["Reset filters"] = "Сбросить фильтры",
         ["Restore all Ritual Sites filters to defaults."] = "Сбросить все фильтры мест ритуалов по умолчанию.",
         ["Washed-Up Seaweed"] = "Выброшенные на берег водоросли",
@@ -108,6 +151,20 @@ local TRANSLATIONS = {
         ["Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet."] = "Используйте здесь Слюнявую рысью игрушку, чтобы получить питомца Омытый Бездной морской варан.",
         ["Rustling Hidden Thicket"] = "Шуршащий куст",
         ["Click the thicket repeatedly until the void-touched lynx kitten becomes interactable."] = "Нажимайте на куст, пока рысь не станет доступна для взаимодействия.",
+        ["Misplaced Ritual Candle"] = "Потерянная ритуальная свеча",
+        ["Bring this candle to the nearby ritual circle to repair the Void Eagle ritual."] = "Отнесите эту свечу к ближайшему ритуальному кругу, чтобы восстановить ритуал орла Бездны.",
+        ["Void Eagle Ritual Site"] = "Место ритуала орла Бездны",
+        ["Repair the circle with the misplaced ritual candle, then start the ritual for the Void-Corrupted Hex Eagle."] = "Восстановите круг потерянной ритуальной свечой, затем начните ритуал для Оскверненного Бездной орла.",
+        ["Void Eagle Wind Gale"] = "Порыв ветра орла Бездны",
+        ["Use the Void Eagle mount and follow the feather trail to this gale for the Void-Scarred Eaglet."] = "Используйте верхового орла Бездны и следуйте по следу перьев к этому потоку для питомца.",
+        ["Lost Bear Cub"] = "Потерявшийся медвежонок",
+        ["Feed the hidden Lost Bear Cub 1 Practically Pork to receive the Chubs pet."] = "Накормите спрятанного медвежонка 1 Practically Pork, чтобы получить питомца Chubs.",
+        ["Pile of Meat Carcasses"] = "Куча мясных туш",
+        ["Summon Chubs here and feed the bear mother 5 Practically Pork for the mount."] = "Призовите здесь Chubs и накормите медведицу 5 Practically Pork, чтобы получить ездовое животное.",
+        ["Malevolent Boons Obelisk"] = "Обелиск Злобных даров",
+        ["Walk up to these obelisks for the Malevolent Boons challenge unlock."] = "Подойдите к этим обелискам, чтобы открыть испытание Злобных даров.",
+        ["Tainted Bone Pile"] = "Оскверненная куча костей",
+        ["Loot this bone pile to start the Tainted Corpses challenge unlock quest."] = "Обыщите эту кучу костей, чтобы начать задание на открытие испытания Оскверненных трупов.",
         ["Coordinates"] = "Координаты",
         ["Left-click: set in-game waypoint"] = "ЛКМ: установить игровую метку",
         ["Right-click: add TomTom waypoint"] = "ПКМ: добавить точку TomTom",
@@ -131,6 +188,8 @@ local defaults = {
     iconAlpha = 1,
     showSeaweed = true,
     showLynx = true,
+    showBrokenThroneRewards = true,
+    showBrokenThroneChallenges = true,
 }
 
 local resettableDefaults = {
@@ -140,6 +199,8 @@ local resettableDefaults = {
     iconAlpha = 1,
     showSeaweed = true,
     showLynx = true,
+    showBrokenThroneRewards = true,
+    showBrokenThroneChallenges = true,
 }
 
 HandyNotes_RitualSitesDB = HandyNotes_RitualSitesDB or {}
@@ -224,17 +285,32 @@ end
 local ICON_KELP = ItemIcon(270041, "Interface\\Icons\\INV_Misc_Herb_Seaweed")
 local ICON_NEST = "Interface\\Icons\\INV_Misc_Basket_05"
 local ICON_LYNX = ItemIcon(270063, "Interface\\Icons\\Ability_Druid_CatForm")
+local ICON_CANDLE = 133750
+local ICON_RITUAL = ItemIcon(269828, "Interface\\Icons\\Spell_Shadow_Rune")
+local ICON_WIND = 136018
+local ICON_BEAR = ItemIcon(269836, 132183)
+local ICON_MEAT = 350568
+local ICON_OBELISK = 136210
+local ICON_BONE = 236946
 
-local nodes = {}
+local nodesByMap = {}
 
 local function Coord(x, y)
     return HandyNotes:getCoord(x / 100, y / 100)
 end
 
-local function AddNode(x, y, category, titleKey, noteKey, icon, scale)
-    nodes[Coord(x, y)] = {
+local function GetMapNodes(mapID)
+    if not nodesByMap[mapID] then
+        nodesByMap[mapID] = {}
+    end
+    return nodesByMap[mapID]
+end
+
+local function AddNode(mapID, x, y, category, titleKey, noteKey, icon, scale, titleSuffix)
+    GetMapNodes(mapID)[Coord(x, y)] = {
         category = category,
         titleKey = titleKey,
+        titleSuffix = titleSuffix,
         noteKey = noteKey,
         icon = icon,
         scale = scale or 1,
@@ -242,12 +318,39 @@ local function AddNode(x, y, category, titleKey, noteKey, icon, scale)
     }
 end
 
+local function GetNode(mapID, coord)
+    local pointData = nodesByMap[mapID]
+    if pointData then
+        return pointData[coord]
+    end
+end
+
+local function GetNodeTitle(node)
+    return T(node.titleKey) .. (node.titleSuffix or "")
+end
+
+local function IsSupportedMap(mapID)
+    return nodesByMap[mapID] ~= nil
+end
+
 local function AddKelp(x, y)
-    AddNode(x, y, CATEGORY_SEAWEED, "Washed-Up Seaweed", "Has a chance to spawn the void-touched poisonfin.", ICON_KELP, 1.15)
+    AddNode(MAP_DAGGERSPINE_POINT, x, y, CATEGORY_SEAWEED, "Washed-Up Seaweed", "Has a chance to spawn the void-touched poisonfin.", ICON_KELP, 1.15)
 end
 
 local function AddBush(x, y)
-    AddNode(x, y, CATEGORY_LYNX, "Rustling Hidden Thicket", "Click the thicket repeatedly until the void-touched lynx kitten becomes interactable.", ICON_LYNX, 1.1)
+    AddNode(MAP_DAGGERSPINE_POINT, x, y, CATEGORY_LYNX, "Rustling Hidden Thicket", "Click the thicket repeatedly until the void-touched lynx kitten becomes interactable.", ICON_LYNX, 1.1)
+end
+
+local function AddBrokenThroneReward(x, y, titleKey, noteKey, icon, scale)
+    AddNode(MAP_BROKEN_THRONE, x, y, CATEGORY_BROKEN_THRONE_REWARDS, titleKey, noteKey, icon, scale)
+end
+
+local function AddBrokenThroneChallenge(x, y, titleKey, noteKey, icon, scale, titleSuffix)
+    AddNode(MAP_BROKEN_THRONE, x, y, CATEGORY_BROKEN_THRONE_CHALLENGES, titleKey, noteKey, icon, scale, titleSuffix)
+end
+
+local function AddBrokenThroneObelisk(index, x, y)
+    AddBrokenThroneChallenge(x, y, "Malevolent Boons Obelisk", "Walk up to these obelisks for the Malevolent Boons challenge unlock.", ICON_OBELISK, 1.05, (" #%d"):format(index))
 end
 
 AddKelp(66.01, 73.85)
@@ -258,7 +361,7 @@ AddKelp(38.10, 63.62)
 AddKelp(46.65, 46.02)
 AddKelp(53.27, 55.43)
 AddKelp(50.00, 55.24)
-AddNode(30.03, 63.12, CATEGORY_SEAWEED, "Soggy Nest", "Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet.", ICON_NEST, 1.1)
+AddNode(MAP_DAGGERSPINE_POINT, 30.03, 63.12, CATEGORY_SEAWEED, "Soggy Nest", "Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet.", ICON_NEST, 1.1)
 
 AddBush(66.40, 52.46)
 AddBush(65.70, 51.60)
@@ -270,12 +373,32 @@ AddBush(42.03, 80.03)
 AddBush(41.76, 49.69)
 AddBush(43.31, 57.99)
 
+AddBrokenThroneReward(51.50, 47.80, "Misplaced Ritual Candle", "Bring this candle to the nearby ritual circle to repair the Void Eagle ritual.", ICON_CANDLE, 1.05)
+AddBrokenThroneReward(50.64, 47.42, "Void Eagle Ritual Site", "Repair the circle with the misplaced ritual candle, then start the ritual for the Void-Corrupted Hex Eagle.", ICON_RITUAL, 1.15)
+AddBrokenThroneReward(49.47, 77.94, "Void Eagle Wind Gale", "Use the Void Eagle mount and follow the feather trail to this gale for the Void-Scarred Eaglet.", ICON_WIND, 1.1)
+AddBrokenThroneReward(55.82, 49.63, "Lost Bear Cub", "Feed the hidden Lost Bear Cub 1 Practically Pork to receive the Chubs pet.", ICON_BEAR, 1.1)
+AddBrokenThroneReward(55.66, 38.85, "Pile of Meat Carcasses", "Summon Chubs here and feed the bear mother 5 Practically Pork for the mount.", ICON_MEAT, 1.1)
+
+AddBrokenThroneObelisk(1, 61.00, 50.00)
+AddBrokenThroneObelisk(2, 41.00, 50.00)
+AddBrokenThroneObelisk(3, 45.00, 59.00)
+AddBrokenThroneObelisk(4, 42.00, 68.00)
+AddBrokenThroneObelisk(5, 55.00, 58.00)
+AddBrokenThroneObelisk(6, 54.00, 54.00)
+AddBrokenThroneChallenge(48.00, 36.50, "Tainted Bone Pile", "Loot this bone pile to start the Tainted Corpses challenge unlock quest.", ICON_BONE, 1.1)
+
 local function IsCategoryEnabled(category)
     if category == CATEGORY_SEAWEED then
         return GetOption("showSeaweed")
     end
     if category == CATEGORY_LYNX then
         return GetOption("showLynx")
+    end
+    if category == CATEGORY_BROKEN_THRONE_REWARDS then
+        return GetOption("showBrokenThroneRewards")
+    end
+    if category == CATEGORY_BROKEN_THRONE_CHALLENGES then
+        return GetOption("showBrokenThroneChallenges")
     end
     return true
 end
@@ -297,17 +420,18 @@ local function Iter(pointData, prevCoord)
 end
 
 function handler:GetNodes2(mapID, isMinimap)
-    if mapID ~= MAP_DAGGERSPINE_POINT then
+    local pointData = nodesByMap[mapID]
+    if not pointData then
         return Iter, nil, nil
     end
     if isMinimap and not GetOption("showMinimap") then
         return Iter, nil, nil
     end
-    return Iter, nodes, nil
+    return Iter, pointData, nil
 end
 
 function handler:OnEnter(mapID, coord)
-    local node = nodes[coord]
+    local node = GetNode(mapID, coord)
     if not node then
         return
     end
@@ -321,7 +445,7 @@ function handler:OnEnter(mapID, coord)
     end
 
     local x, y = HandyNotes:getXY(coord)
-    GameTooltip:SetText(T(node.titleKey))
+    GameTooltip:SetText(GetNodeTitle(node))
     if node.noteKey then
         GameTooltip:AddLine(T(node.noteKey), 1, 1, 1, true)
     end
@@ -342,7 +466,7 @@ function handler:OnClick(button, down, mapID, coord)
         return
     end
 
-    local node = nodes[coord]
+    local node = GetNode(mapID, coord)
     if not node then
         return
     end
@@ -357,7 +481,7 @@ function handler:OnClick(button, down, mapID, coord)
         end
     elseif button == "RightButton" and TomTom then
         TomTom:AddWaypoint(mapID, x, y, {
-            title = T(node.titleKey),
+            title = GetNodeTitle(node),
             persistent = false,
             minimap = true,
             world = true,
@@ -456,6 +580,18 @@ local options = {
                     desc = OptionName("Show rustling hidden thickets for the void-touched lynx collectible."),
                     order = 20,
                 },
+                showBrokenThroneRewards = {
+                    type = "toggle",
+                    name = OptionName("Show Broken Throne rewards"),
+                    desc = OptionName("Show fixed Broken Throne collectible and reward points."),
+                    order = 30,
+                },
+                showBrokenThroneChallenges = {
+                    type = "toggle",
+                    name = OptionName("Show Broken Throne challenge unlocks"),
+                    desc = OptionName("Show Malevolent Boons obelisks and the tainted bone pile."),
+                    order = 40,
+                },
             },
         },
         reset = {
@@ -498,10 +634,22 @@ local function ShowFilterMenu(owner)
         end, function()
             ToggleOption("showLynx")
         end)
+        rootDescription:CreateCheckbox(T("Show Broken Throne rewards"), function()
+            return GetOption("showBrokenThroneRewards")
+        end, function()
+            ToggleOption("showBrokenThroneRewards")
+        end)
+        rootDescription:CreateCheckbox(T("Show Broken Throne challenge unlocks"), function()
+            return GetOption("showBrokenThroneChallenges")
+        end, function()
+            ToggleOption("showBrokenThroneChallenges")
+        end)
         rootDescription:CreateDivider()
         rootDescription:CreateButton(T("Show all"), function()
             SetOption("showSeaweed", true)
             SetOption("showLynx", true)
+            SetOption("showBrokenThroneRewards", true)
+            SetOption("showBrokenThroneChallenges", true)
         end)
         rootDescription:CreateButton(T("Open HandyNotes options"), OpenHandyNotesOptions)
     end)
@@ -512,7 +660,7 @@ function UpdateMapButton()
         return
     end
 
-    local visible = GetOption("showMapButton") and WorldMapFrame:IsShown() and WorldMapFrame:GetMapID() == MAP_DAGGERSPINE_POINT
+    local visible = GetOption("showMapButton") and WorldMapFrame:IsShown() and IsSupportedMap(WorldMapFrame:GetMapID())
     if mapButton:IsShown() ~= visible then
         mapButton:SetShown(visible)
         if worldMapButtons and worldMapButtons.SetPoints then
@@ -546,6 +694,8 @@ local function CreateMapButton()
         GameTooltip:SetText(T("HandyNotes: Ritual Sites"))
         GameTooltip:AddLine(T("Show seaweed and soggy nest"), GetOption("showSeaweed") and 0.4 or 0.8, GetOption("showSeaweed") and 1 or 0.4, 0.4)
         GameTooltip:AddLine(T("Show void-touched lynx thickets"), GetOption("showLynx") and 0.4 or 0.8, GetOption("showLynx") and 1 or 0.4, 0.4)
+        GameTooltip:AddLine(T("Show Broken Throne rewards"), GetOption("showBrokenThroneRewards") and 0.4 or 0.8, GetOption("showBrokenThroneRewards") and 1 or 0.4, 0.4)
+        GameTooltip:AddLine(T("Show Broken Throne challenge unlocks"), GetOption("showBrokenThroneChallenges") and 0.4 or 0.8, GetOption("showBrokenThroneChallenges") and 1 or 0.4, 0.4)
         GameTooltip:Show()
     end)
     mapButton:SetScript("OnLeave", GameTooltip_Hide)

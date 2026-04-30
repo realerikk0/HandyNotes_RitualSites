@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0
+
+- Adds Broken Throne (`2585`) Ritual Site markers for fixed reward and challenge unlock points.
+- Adds category filters for Broken Throne rewards and challenge unlocks.
+- Updates localization and addon metadata for the expanded marker set, including the zhCN name 残破神庙.
+
 ## 1.1.1
 
 - Adds an in-addon language selector with Game language, English, Simplified Chinese, and Russian options.
