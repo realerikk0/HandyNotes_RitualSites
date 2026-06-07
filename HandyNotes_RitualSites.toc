@@ -5,7 +5,7 @@
 ## Notes-zhCN: 标记仪式场地内的收集和挑战解锁点。
 ## Notes-ruRU: Отмечает точки коллекционных предметов и открытия испытаний в местах ритуалов.
 ## Author: liuyu
-## Version: 1.2.1
+## Version: 1.2.2
 ## IconTexture: Interface\Icons\Spell_Shadow_Rune
 ## DefaultState: enabled
 ## X-Category: Map

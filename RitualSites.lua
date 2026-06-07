@@ -45,6 +45,8 @@ local TRANSLATIONS = {
         ["Show fixed Broken Throne collectible and reward points."] = "Show fixed Broken Throne collectible and reward points.",
         ["Show Broken Throne challenge unlocks"] = "Show Broken Throne challenge unlocks",
         ["Show Malevolent Boons obelisks and the tainted bone pile."] = "Show Malevolent Boons obelisks and the tainted bone pile.",
+        ["Hide collected rewards"] = "Hide collected rewards",
+        ["Automatically hide markers after the related pet or mount has been collected."] = "Automatically hide markers after the related pet or mount has been collected.",
         ["Reset filters"] = "Reset filters",
         ["Restore all Ritual Sites filters to defaults."] = "Restore all Ritual Sites filters to defaults.",
         ["Washed-Up Seaweed"] = "Washed-Up Seaweed",
@@ -218,6 +220,7 @@ local defaults = {
     showMinimap = true,
     iconScale = 1,
     iconAlpha = 1,
+    hideCollected = true,
     showSeaweed = true,
     showLynx = true,
     showDaggerspineChick = true,
@@ -231,6 +234,7 @@ local resettableDefaults = {
     showMinimap = true,
     iconScale = 1,
     iconAlpha = 1,
+    hideCollected = true,
     showSeaweed = true,
     showLynx = true,
     showDaggerspineChick = true,
@@ -330,6 +334,19 @@ local ICON_MEAT = 350568
 local ICON_OBELISK = 136210
 local ICON_BONE = 236946
 
+local REWARD_PET = "pet"
+local REWARD_MOUNT = "mount"
+
+local PET_VOID_CORRUPTED_SNAPDRAGON = 5021
+local PET_VOID_TOUCHED_CHICK = 5022
+local PET_VOID_TOUCHED_LYNX_KITTEN = 5023
+local PET_VOID_SCARRED_EAGLET = 5017
+local PET_CHUBS = 5019
+
+local MOUNT_WITHERBARK_WARBEAR_MOTHER = 2779
+local MOUNT_VOID_CORRUPTED_HEX_EAGLE = 2961
+local MOUNT_VOID_TOUCHED_SNAPDRAGON = 2964
+
 local nodesByMap = {}
 
 local function Coord(x, y)
@@ -343,7 +360,7 @@ local function GetMapNodes(mapID)
     return nodesByMap[mapID]
 end
 
-local function AddNode(mapID, x, y, category, titleKey, noteKey, icon, scale, titleSuffix)
+local function AddNode(mapID, x, y, category, titleKey, noteKey, icon, scale, titleSuffix, rewards)
     GetMapNodes(mapID)[Coord(x, y)] = {
         category = category,
         titleKey = titleKey,
@@ -352,7 +369,58 @@ local function AddNode(mapID, x, y, category, titleKey, noteKey, icon, scale, ti
         icon = icon,
         scale = scale or 1,
         alpha = 1,
+        rewards = rewards,
     }
+end
+
+local function PetReward(speciesID)
+    return { type = REWARD_PET, id = speciesID }
+end
+
+local function MountReward(mountID)
+    return { type = REWARD_MOUNT, id = mountID }
+end
+
+local function IsPetCollected(speciesID)
+    if not (C_PetJournal and C_PetJournal.GetNumCollectedInfo) then
+        return false
+    end
+
+    local numCollected = C_PetJournal.GetNumCollectedInfo(speciesID)
+    return (numCollected or 0) > 0
+end
+
+local function IsMountCollected(mountID)
+    if not (C_MountJournal and C_MountJournal.GetMountInfoByID) then
+        return false
+    end
+
+    local _, _, _, _, _, _, _, _, _, _, isCollected = C_MountJournal.GetMountInfoByID(mountID)
+    return isCollected == true
+end
+
+local function IsRewardCollected(reward)
+    if reward.type == REWARD_PET then
+        return IsPetCollected(reward.id)
+    end
+    if reward.type == REWARD_MOUNT then
+        return IsMountCollected(reward.id)
+    end
+    return false
+end
+
+local function AreRewardsCollected(rewards)
+    if not rewards then
+        return false
+    end
+
+    for _, reward in ipairs(rewards) do
+        if not IsRewardCollected(reward) then
+            return false
+        end
+    end
+
+    return true
 end
 
 local function GetNode(mapID, coord)
@@ -371,15 +439,15 @@ local function IsSupportedMap(mapID)
 end
 
 local function AddKelp(x, y)
-    AddNode(MAP_DAGGERSPINE_POINT, x, y, CATEGORY_SEAWEED, "Washed-Up Seaweed", "Has a chance to spawn the void-touched poisonfin.", ICON_KELP, 1.15)
+    AddNode(MAP_DAGGERSPINE_POINT, x, y, CATEGORY_SEAWEED, "Washed-Up Seaweed", "Has a chance to spawn the void-touched poisonfin.", ICON_KELP, 1.15, nil, { MountReward(MOUNT_VOID_TOUCHED_SNAPDRAGON) })
 end
 
 local function AddBush(x, y)
-    AddNode(MAP_DAGGERSPINE_POINT, x, y, CATEGORY_LYNX, "Rustling Hidden Thicket", "Click the thicket repeatedly until the void-touched lynx kitten becomes interactable.", ICON_LYNX, 1.1)
+    AddNode(MAP_DAGGERSPINE_POINT, x, y, CATEGORY_LYNX, "Rustling Hidden Thicket", "Click the thicket repeatedly until the void-touched lynx kitten becomes interactable.", ICON_LYNX, 1.1, nil, { PetReward(PET_VOID_TOUCHED_LYNX_KITTEN) })
 end
 
 local function AddDaggerspineChick(x, y, titleKey, noteKey)
-    AddNode(MAP_DAGGERSPINE_POINT, x, y, CATEGORY_DAGGERSPINE_CHICK, titleKey, noteKey, ICON_EGG, 1.1)
+    AddNode(MAP_DAGGERSPINE_POINT, x, y, CATEGORY_DAGGERSPINE_CHICK, titleKey, noteKey, ICON_EGG, 1.1, nil, { PetReward(PET_VOID_TOUCHED_CHICK) })
 end
 
 local function AddDaggerspineChallenge(x, y, titleKey, noteKey, icon, scale, titleSuffix)
@@ -390,8 +458,8 @@ local function AddDaggerspineObelisk(index, x, y)
     AddDaggerspineChallenge(x, y, "Malevolent Boons Obelisk", "Walk up to these obelisks for the Malevolent Boons challenge unlock.", ICON_OBELISK, 1.05, (" #%d"):format(index))
 end
 
-local function AddBrokenThroneReward(x, y, titleKey, noteKey, icon, scale)
-    AddNode(MAP_BROKEN_THRONE, x, y, CATEGORY_BROKEN_THRONE_REWARDS, titleKey, noteKey, icon, scale)
+local function AddBrokenThroneReward(x, y, titleKey, noteKey, icon, scale, rewards)
+    AddNode(MAP_BROKEN_THRONE, x, y, CATEGORY_BROKEN_THRONE_REWARDS, titleKey, noteKey, icon, scale, nil, rewards)
 end
 
 local function AddBrokenThroneChallenge(x, y, titleKey, noteKey, icon, scale, titleSuffix)
@@ -410,7 +478,7 @@ AddKelp(38.10, 63.62)
 AddKelp(46.65, 46.02)
 AddKelp(53.27, 55.43)
 AddKelp(50.00, 55.24)
-AddNode(MAP_DAGGERSPINE_POINT, 30.03, 63.12, CATEGORY_SEAWEED, "Soggy Nest", "Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet.", ICON_NEST, 1.1)
+AddNode(MAP_DAGGERSPINE_POINT, 30.03, 63.12, CATEGORY_SEAWEED, "Soggy Nest", "Use the soggy lynx toy here to obtain the void-corrupted poisonfin pet.", ICON_NEST, 1.1, nil, { PetReward(PET_VOID_CORRUPTED_SNAPDRAGON) })
 
 AddBush(66.40, 52.46)
 AddBush(65.70, 51.60)
@@ -438,11 +506,11 @@ AddDaggerspineObelisk(8, 44.80, 47.30)
 AddDaggerspineObelisk(9, 39.30, 76.10)
 AddDaggerspineChallenge(66.00, 63.00, "Tainted Bone Pile", "Loot this bone pile to start the Tainted Corpses challenge unlock quest.", ICON_BONE, 1.1)
 
-AddBrokenThroneReward(51.50, 47.80, "Misplaced Ritual Candle", "Bring this candle to the nearby ritual circle to repair the Void Eagle ritual.", ICON_CANDLE, 1.05)
-AddBrokenThroneReward(50.64, 47.42, "Void Eagle Ritual Site", "Repair the circle with the misplaced ritual candle, then start the ritual for the Void-Corrupted Hex Eagle.", ICON_RITUAL, 1.15)
-AddBrokenThroneReward(49.47, 77.94, "Void Eagle Wind Gale", "Use the Void Eagle mount and follow the feather trail to this gale for the Void-Scarred Eaglet.", ICON_WIND, 1.1)
-AddBrokenThroneReward(55.82, 49.63, "Lost Bear Cub", "Feed the hidden Lost Bear Cub 1 Practically Pork to receive the Chubs pet.", ICON_BEAR, 1.1)
-AddBrokenThroneReward(55.66, 38.85, "Pile of Meat Carcasses", "Summon Chubs here and feed the bear mother 5 Practically Pork for the mount.", ICON_MEAT, 1.1)
+AddBrokenThroneReward(51.50, 47.80, "Misplaced Ritual Candle", "Bring this candle to the nearby ritual circle to repair the Void Eagle ritual.", ICON_CANDLE, 1.05, { MountReward(MOUNT_VOID_CORRUPTED_HEX_EAGLE) })
+AddBrokenThroneReward(50.64, 47.42, "Void Eagle Ritual Site", "Repair the circle with the misplaced ritual candle, then start the ritual for the Void-Corrupted Hex Eagle.", ICON_RITUAL, 1.15, { MountReward(MOUNT_VOID_CORRUPTED_HEX_EAGLE) })
+AddBrokenThroneReward(49.47, 77.94, "Void Eagle Wind Gale", "Use the Void Eagle mount and follow the feather trail to this gale for the Void-Scarred Eaglet.", ICON_WIND, 1.1, { PetReward(PET_VOID_SCARRED_EAGLET) })
+AddBrokenThroneReward(55.82, 49.63, "Lost Bear Cub", "Feed the hidden Lost Bear Cub 1 Practically Pork to receive the Chubs pet.", ICON_BEAR, 1.1, { PetReward(PET_CHUBS) })
+AddBrokenThroneReward(55.66, 38.85, "Pile of Meat Carcasses", "Summon Chubs here and feed the bear mother 5 Practically Pork for the mount.", ICON_MEAT, 1.1, { MountReward(MOUNT_WITHERBARK_WARBEAR_MOTHER) })
 
 AddBrokenThroneObelisk(1, 61.00, 50.00)
 AddBrokenThroneObelisk(2, 41.00, 50.00)
@@ -474,6 +542,18 @@ local function IsCategoryEnabled(category)
     return true
 end
 
+local function IsNodeVisible(node)
+    if not IsCategoryEnabled(node.category) then
+        return false
+    end
+
+    if GetOption("hideCollected") and AreRewardsCollected(node.rewards) then
+        return false
+    end
+
+    return true
+end
+
 local handler = {}
 
 local function Iter(pointData, prevCoord)
@@ -483,7 +563,7 @@ local function Iter(pointData, prevCoord)
 
     local coord, node = next(pointData, prevCoord)
     while coord do
-        if IsCategoryEnabled(node.category) then
+        if IsNodeVisible(node) then
             return coord, nil, node.icon, node.scale * GetNumberOption("iconScale"), node.alpha * GetNumberOption("iconAlpha")
         end
         coord, node = next(pointData, coord)
@@ -631,6 +711,12 @@ local options = {
                     isPercent = true,
                     order = 40,
                 },
+                hideCollected = {
+                    type = "toggle",
+                    name = OptionName("Hide collected rewards"),
+                    desc = OptionName("Automatically hide markers after the related pet or mount has been collected."),
+                    order = 50,
+                },
             },
         },
         categories = {
@@ -737,6 +823,11 @@ local function ShowFilterMenu(owner)
         end, function()
             ToggleOption("showBrokenThroneChallenges")
         end)
+        rootDescription:CreateCheckbox(T("Hide collected rewards"), function()
+            return GetOption("hideCollected")
+        end, function()
+            ToggleOption("hideCollected")
+        end)
         rootDescription:CreateDivider()
         rootDescription:CreateButton(T("Show all"), function()
             SetOption("showSeaweed", true)
@@ -745,6 +836,7 @@ local function ShowFilterMenu(owner)
             SetOption("showDaggerspineChallenges", true)
             SetOption("showBrokenThroneRewards", true)
             SetOption("showBrokenThroneChallenges", true)
+            SetOption("hideCollected", false)
         end)
         rootDescription:CreateButton(T("Open HandyNotes options"), OpenHandyNotesOptions)
     end)
@@ -793,6 +885,7 @@ local function CreateMapButton()
         GameTooltip:AddLine(T("Show Daggerspine challenge unlocks"), GetOption("showDaggerspineChallenges") and 0.4 or 0.8, GetOption("showDaggerspineChallenges") and 1 or 0.4, 0.4)
         GameTooltip:AddLine(T("Show Broken Throne rewards"), GetOption("showBrokenThroneRewards") and 0.4 or 0.8, GetOption("showBrokenThroneRewards") and 1 or 0.4, 0.4)
         GameTooltip:AddLine(T("Show Broken Throne challenge unlocks"), GetOption("showBrokenThroneChallenges") and 0.4 or 0.8, GetOption("showBrokenThroneChallenges") and 1 or 0.4, 0.4)
+        GameTooltip:AddLine(T("Hide collected rewards"), GetOption("hideCollected") and 0.4 or 0.8, GetOption("hideCollected") and 1 or 0.4, 0.4)
         GameTooltip:Show()
     end)
     mapButton:SetScript("OnLeave", GameTooltip_Hide)
@@ -815,9 +908,15 @@ end
 local eventFrame = CreateFrame("Frame")
 eventFrame:RegisterEvent("PLAYER_LOGIN")
 eventFrame:RegisterEvent("ADDON_LOADED")
+eventFrame:RegisterEvent("COMPANION_LEARNED")
+eventFrame:RegisterEvent("NEW_MOUNT_ADDED")
+eventFrame:RegisterEvent("NEW_PET_ADDED")
+eventFrame:RegisterEvent("PET_JOURNAL_LIST_UPDATE")
 eventFrame:SetScript("OnEvent", function(_, event, addonName)
     if event == "PLAYER_LOGIN" or addonName == "Blizzard_WorldMap" then
         CreateMapButton()
+    elseif event == "COMPANION_LEARNED" or event == "NEW_MOUNT_ADDED" or event == "NEW_PET_ADDED" or event == "PET_JOURNAL_LIST_UPDATE" then
+        Refresh()
     end
 end)
 

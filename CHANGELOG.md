@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.2
+
+- Adds automatic hiding for reward markers after the related pet or mount has been collected.
+- Adds a `Hide collected rewards` option to HandyNotes settings and the world map filter menu.
+- Refreshes Ritual Sites markers when new pets or mounts are learned.
+
 ## 1.2.1
 
 - Adds Daggerspine Point challenge unlock markers for Malevolent Boons obelisks and the Tainted Bone Pile.
